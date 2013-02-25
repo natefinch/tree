@@ -1,7 +1,7 @@
 tree
 ====
 
-A statically typed binary tree in Go without casts or reflection
+A statically typed binary search tree in Go without casts or reflection
 
 godoc documentation here: http://godoc.org/github.com/natefinch/tree
 
