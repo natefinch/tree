@@ -74,3 +74,7 @@ Example Code:
 		// search for something that's not in there:
 		t.Search(s.Cmp("nope")) // returns -1
 	}
+
+License:
+--------
+MIT License
