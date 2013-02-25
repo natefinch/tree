@@ -13,25 +13,31 @@ func New() *Tree {
 
 // Insert adds the value to the tree
 // i is the key of the item in your datastructure
-// less is a comparison that should return datastructure[i] < datastructure[j]
-func (t *Tree) Insert(i int, less func(int) bool) {
+// cmp is a comparison function that should return
+// -1 if <val> < datastructure[i]
+//  0 if <val> == datastructure[i]
+//  1 if <val> > datastructure[i]
+func (t *Tree) Insert(i int, cmp func(int) int8) {
 	if t.Val == -1 {
 		t.Val = i
 		return
 	}
 	for {
-		if less(t.Val) {
+		switch cmp(t.Val) {
+		case -1:
 			if t.Left == nil {
 				t.Left = &Tree{Val: i}
 				return
 			}
 			t = t.Left
-		} else {
+		case 0, 1:
 			if t.Right == nil {
 				t.Right = &Tree{Val: i}
 				return
 			}
 			t = t.Right
+		default:
+			panic("Comparison function should only return 0, 1, or -1")
 		}
 	}
 	panic("impossible")
