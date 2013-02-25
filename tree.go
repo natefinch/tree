@@ -1,25 +1,32 @@
+// Package tree implements a very simple binary tree without any balancing.
+// This is mainly intended as a proof of concept for a strongly typed tree
+// in Go without using reflection or casts.
 package tree
 
-// Tree holds a binary tree data organization
-// Val is an index into an external data structure
-// Note that Tree is not intended to hold data itself
+// Tree holds a binary tree data organization.
+//
+// Val is an index into an external data structure.
+//
+// Note that Tree is not intended to hold data itself, it just
+// maintains a structure, and data is retrieved use Val as the index
+// into another data structure that holds the actual values
 type Tree struct {
 	Val   int
 	Left  *Tree
 	Right *Tree
 }
 
-// New Returns a newly initialized Tree
+// New Returns a newly initialized Tree.
 func New() *Tree {
 	return &Tree{Val: -1}
 }
 
-// Insert adds the value to the tree
+// Insert adds the value to the tree.
+//
 // i is the key of the item in your datastructure
+//
 // cmp is a comparison function that should return
-// -1 if <val> < datastructure[i]
-//  0 if <val> == datastructure[i]
-//  1 if <val> > datastructure[i]
+// -1 if less than data[i], 0 if equal, and 1 if greater than
 func (t *Tree) Insert(i int, cmp func(int) int8) {
 	if t.Val == -1 {
 		t.Val = i
@@ -46,11 +53,10 @@ func (t *Tree) Insert(i int, cmp func(int) int8) {
 	panic("impossible")
 }
 
-// Search returns the index of the item if it is in the tree or -1 if it is not
+// Find returns the index of the item if it is in the tree or -1 if it is not.
+//
 // cmp is a comparison function that should return
-// -1 if <val> < datastructure[i]
-//  0 if <val> == datastructure[i]
-//  1 if <val> > datastructure[i]
+// -1 if less than data[i], 0 if equal, and 1 if greater than
 func (t *Tree) Search(cmp func(int) int8) int {
 	t = t.search(cmp)
 	if t == nil {
@@ -59,11 +65,6 @@ func (t *Tree) Search(cmp func(int) int8) int {
 	return t.Val
 }
 
-// Find returns the index of the item if it is in the tree or -1 if it is not
-// cmp is a comparison function that should return
-// -1 if <val> < datastructure[i]
-//  0 if <val> == datastructure[i]
-//  1 if <val> > datastructure[i]
 func (t *Tree) search(cmp func(int) int8) *Tree {
 	if cmp == nil {
 		panic("Nil comparison function!")
@@ -84,7 +85,7 @@ func (t *Tree) search(cmp func(int) int8) *Tree {
 	return nil
 }
 
-// Walk implements an in-order walk of a tree using recursion
+// Walk implements an in-order walk of a tree using recursion.
 func Walk(t *Tree, f func(*Tree)) {
 	if t.Left != nil {
 		Walk(t.Left, f)
