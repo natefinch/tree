@@ -1,12 +1,15 @@
 package tree
 
+// Tree holds a binary tree data organization
+// Val is an index into an external data structure
+// Note that Tree is not intended to hold data itself
 type Tree struct {
 	Val   int
 	Left  *Tree
 	Right *Tree
 }
 
-// Returns
+// New Returns a newly initialized Tree
 func New() *Tree {
 	return &Tree{Val: -1}
 }
@@ -81,7 +84,7 @@ func (t *Tree) search(cmp func(int) int8) *Tree {
 	return nil
 }
 
-// in-order walk of a tree using recursion
+// Walk implements an in-order walk of a tree using recursion
 func Walk(t *Tree, f func(*Tree)) {
 	if t.Left != nil {
 		Walk(t.Left, f)
